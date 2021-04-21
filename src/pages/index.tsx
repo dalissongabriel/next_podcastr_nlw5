@@ -1,5 +1,20 @@
-export default function Home() {
+export default function Home({ episodes }) {
   return (
-    <h1>Olá Mundo em Next JS</h1>
+    <div>
+      <h1>Index</h1>
+      <p>{JSON.stringify(episodes)}</p>
+    </div>
   )
+}
+
+export async function getStaticProps() {
+  const response = await fetch('http://localhost:3333/episodes')
+  const data = await response.json()
+
+  return {
+    props: {
+      episodes: data,
+    },
+    revalidate: 60 * 60 * 8,
+  }
 }
